@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "id": "test-panel",
+  "name": "Test panel",
+  "spaces": 8,
+  "mainAmps": 200,
+  "location": "Garage",
+  "manufacturer": "",
+  "revision": 0,
+  "updatedAt": "",
+  "breakers": [
+    { "id": "breaker-hvac", "start": 1, "kind": "double", "spaces": 2,
+      "circuits": [{ "id": "circuit-hvac", "name": "Heat pump", "amps": 60, "verifiedOn": "2026-10-09", "notes": [{ "id": "note-hvac", "date": "2026-10-09", "text": "Verified circuit labeling." }],
+        "assignments": [{ "id": "monitor-hvac", "entityId": "sensor.heat_pump_energy", "role": "circuit", "measurement": "energy", "deviceId": "meter-1", "label": "Circuit meter" }]
+      }]
+    },
+    { "id": "breaker-tandem", "start": 2, "kind": "tandem", "spaces": 1,
+      "circuits": [
+        { "id": "circuit-kitchen", "name": "Kitchen outlets", "amps": 20, "verifiedOn": "", "assignments": [], "notes": [] },
+        { "id": "circuit-dining", "name": "Dining outlets", "amps": 20, "verifiedOn": "", "assignments": [], "notes": [] }
+      ]
+    }
+  ]
+}

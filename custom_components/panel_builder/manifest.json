@@ -1,0 +1,13 @@
+{
+  "domain": "panel_builder",
+  "name": "Panel Builder",
+  "version": "0.1.0",
+  "config_flow": true,
+  "dependencies": ["http", "websocket_api", "frontend"],
+  "requirements": [],
+  "codeowners": ["@Phoenix-Grand"],
+  "documentation": "https://git.cdsfellows.com/kudjo/HA-Electric-Panel-builder",
+  "issue_tracker": "https://git.cdsfellows.com/kudjo/HA-Electric-Panel-builder/issues",
+  "iot_class": "local_push",
+  "integration_type": "service"
+}

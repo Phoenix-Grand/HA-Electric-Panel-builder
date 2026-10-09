@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A local preview of the Home Assistant Panel Builder integration">
+  <title>Panel Builder · Home Assistant preview</title>
+  <style>
+    body{margin:0;background:#e9edf2;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#253443}
+    .preview-bar{padding:10px 24px;background:#19232f;color:#ced8e4;display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:12px}
+    .preview-bar strong{color:#efc263;font-size:10px;letter-spacing:1.5px;margin-right:12px}.preview-bar button{background:none;border:1px solid #5b6877;border-radius:5px;padding:5px 9px;color:#e2e9f1;cursor:pointer;font:inherit}
+    main{max-width:1240px;margin:30px auto;padding:0 24px 32px}.preview-note{max-width:900px;margin:18px auto 0;font-size:12px;color:#596c7e;text-align:center;line-height:1.6}.preview-note a{color:#3e617e}
+    @media(max-width:760px){main{margin:14px auto;padding:0 9px 18px}.preview-bar{padding:10px 14px}.preview-bar span{max-width:260px;font-size:11px}.preview-note{padding:0 14px}}
+  </style>
+</head>
+<body>
+  <div class="preview-bar"><span><strong>LOCAL PREVIEW</strong> Example circuits & simulated sensors. Your changes stay in this browser.</span><button id="reset-demo">Reset example</button></div>
+  <main><panel-builder-card></panel-builder-card><p class="preview-note">Install the integration to select your real Home Assistant devices and share panel records across dashboards.<br><a href="README.md">Installation & documentation</a> · <a href="changelog.md">Changelog</a> · <a href="TODO.md">Roadmap</a></p></main>
+  <script type="module" src="demo/demo.js"></script>
+</body>
+</html>
