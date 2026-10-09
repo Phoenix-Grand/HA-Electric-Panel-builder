@@ -6,6 +6,8 @@ Maintainer: **Kudjo Grand** · gpenrod@gmail.com. Source: [kudjo/HA-Electric-Pan
 
 HACS mirror: [Phoenix-Grand/HA-Electric-Panel-builder](https://github.com/Phoenix-Grand/HA-Electric-Panel-builder).
 
+Release: [v0.1.0](https://github.com/Phoenix-Grand/HA-Electric-Panel-builder/releases/tag/v0.1.0) · [Manual installation ZIP](https://github.com/Phoenix-Grand/HA-Electric-Panel-builder/releases/download/v0.1.0/panel-builder-0.1.0.zip).
+
 ## What it does
 
 - Preset **8, 12, 16, 20, 24, 30, 40, 42, 54, and 60-space panels**, or a custom **1–120 spaces**. Multiple named panels are supported.

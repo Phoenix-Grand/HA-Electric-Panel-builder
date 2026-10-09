@@ -7,8 +7,8 @@
 - [ ] Verify the companion dashboard's built-in Energy cards with real Energy preferences and recorder statistics.
 - [x] Set Gitea repository documentation / issue tracker URLs and record Kudjo Grand as maintainer.
 - [x] Add the maintainer's GitHub username, @Phoenix-Grand, to manifest.json codeowners.
-- [ ] Publish GitHub or Gitea repository, tag the release, and attach installation ZIP.
-- [ ] Publish the public GitHub mirror at Phoenix-Grand/HA-Electric-Panel-builder for HACS; direct Gitea installation is not supported by HACS.
+- [x] Publish GitHub and Gitea repositories, tag v0.1.0, and attach the installation ZIP to the GitHub release.
+- [x] Publish the public GitHub mirror at Phoenix-Grand/HA-Electric-Panel-builder for HACS; direct Gitea installation is not supported by HACS.
 - [ ] Validate custom HACS installation on GitHub. Default catalog submission is optional and separate.
 
 ## Energy and monitoring

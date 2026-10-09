@@ -15,4 +15,5 @@
 - Primary repository and issue tracker configured for kudjo/HA-Electric-Panel-builder on git.cdsfellows.com, maintained by Kudjo Grand.
 - Documented public GitHub mirror requirement and custom Integration installation steps for HACS.
 - HACS mirror configured at Phoenix-Grand/HA-Electric-Panel-builder with @Phoenix-Grand as code owner.
+- Published v0.1.0 to Gitea and GitHub with an installation ZIP attached to the GitHub release; GitHub automated checks passed.
 - Model, persistence, and browser workflow tests; live Home Assistant commissioning remains on the roadmap.
