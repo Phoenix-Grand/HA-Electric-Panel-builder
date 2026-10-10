@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1 — 2026-10-09
+
+- Correct Energy setup navigation with a direct link to Electricity configuration and Individual electrical devices.
+- Show primary power assignments in the checklist and explain existing energy counters before suggesting Integral helpers.
+- Include a native historical energy Sankey, shared date collection, and deduplicated 24-hour primary circuit power histories in dashboard exports.
+- Provide separate view and complete-new-dashboard YAML exports with explicit Raw configuration editor instructions and unique panel-specific paths.
+- Preserve the working v0.1.0 source with tag `working-before-energy-dashboard-2026-10-09` before these changes. Saved panel data remains version 1.
+
 ## 0.1.0 — 2026-10-09
 
 - Initial Home Assistant integration and native dashboard card.

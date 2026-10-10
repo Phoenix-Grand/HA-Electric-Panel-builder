@@ -135,18 +135,47 @@ export function sharedEntities(panel) {
   }
   return [...counts].filter(([, count]) => count > 1).map(([entity]) => entity);
 }
-export function energyPlan(panel, states) {
+export function energyPlan(panel, states = {}) {
   const rows = [];
   const seen = new Set();
   for (const breaker of panel.breakers) for (const circuit of breaker.circuits) {
-    for (const assignment of circuit.assignments.filter(a => a.role === 'circuit' && a.measurement === 'energy')) {
+    for (const assignment of circuit.assignments.filter(a => a.role === 'circuit' && ['energy', 'power'].includes(a.measurement))) {
       if (seen.has(assignment.entityId)) continue;
       seen.add(assignment.entityId);
-      rows.push({ circuit: circuit.name, spaces: occupiedSpaces(breaker), entityId: assignment.entityId, ready: energyEligible(states[assignment.entityId]) });
+      rows.push({ circuit: circuit.name, spaces: occupiedSpaces(breaker), entityId: assignment.entityId, measurement: assignment.measurement, ready: assignment.measurement === 'energy' && energyEligible(states[assignment.entityId]) });
     }
   }
   return rows;
 }
-export function dashboardYaml(panel) {
-  return `# Add this view to an editable Home Assistant dashboard.\n# Register /panel_builder/panel-builder.js?v=0.1.0 as a JavaScript module.\n# Built-in Energy cards use the sensors configured in Settings > Energy.\ntitle: ${JSON.stringify(panel.name)}\npath: panel-energy\ncards:\n  - type: energy-date-selection\n  - type: energy-usage-graph\n  - type: energy-devices-graph\n  - type: custom:panel-builder-card\n    panel_id: ${JSON.stringify(panel.id)}\n`;
+export function dashboardYaml(panel, wholeDashboard = false) {
+  const key = `energy_panel_${panel.id}`;
+  const lines = [
+    `title: ${JSON.stringify(panel.name)}`,
+    `path: ${JSON.stringify('panel-energy-' + panel.id.toLowerCase())}`,
+    'type: panel', 'cards:', '  - type: vertical-stack', '    cards:',
+    '      - type: markdown',
+    '        content: "## Panel & energy\\nUse the date selector for historical energy. Panel readings show now; power history shows the last 24 hours."',
+    '      - type: energy-date-selection', `        collection_key: ${JSON.stringify(key)}`,
+    '      - type: energy-sankey', '        title: Recorded energy flow', `        collection_key: ${JSON.stringify(key)}`,
+    '      - type: energy-usage-graph', `        collection_key: ${JSON.stringify(key)}`,
+    '      - type: energy-devices-graph', `        collection_key: ${JSON.stringify(key)}`,
+    '      - type: custom:panel-builder-card', `        panel_id: ${JSON.stringify(panel.id)}`, '        read_only: true',
+  ];
+  const seen = new Set();
+  const power = [];
+  for (const circuit of panel.breakers.flatMap(b => b.circuits)) {
+    for (const a of circuit.assignments.filter(a => a.role === 'circuit' && a.measurement === 'power')) {
+      if (seen.has(a.entityId)) continue;
+      seen.add(a.entityId); power.push({ entity: a.entityId, name: circuit.name });
+    }
+  }
+  for (let i = 0; i < power.length; i += 8) {
+    lines.push('      - type: history-graph', `        title: Circuit power · last 24 hours (${i / 8 + 1})`, '        hours_to_show: 24', '        entities:');
+    for (const entity of power.slice(i, i + 8)) lines.push(`          - entity: ${JSON.stringify(entity.entity)}`, `            name: ${JSON.stringify(entity.name)}`);
+  }
+  const instructions = wholeDashboard
+    ? '# For a NEW editable dashboard: Edit dashboard > Raw configuration editor.\n# Paste this entire file. Back up any existing dashboard before replacing it.\n'
+    : '# This is one VIEW, not a card. Do not paste it into Add card > Manual.\n# In Edit dashboard > Raw configuration editor, append it under views:\n# prefix its first line with "  - " and indent the remaining lines four spaces.\n';
+  const note = '# Register /panel_builder/panel-builder.js?v=0.1.1 as a JavaScript module.\n# Energy cards use your existing Energy configuration, not panel power assignments.\n# Open /config/energy/electricity to configure Individual electrical devices.\n# energy-sankey requires a Home Assistant version that includes that card.\n';
+  return instructions + note + (wholeDashboard ? `title: ${JSON.stringify(panel.name + ' · Energy')}\nviews:\n  - ${lines.join('\n    ')}\n` : lines.join('\n') + '\n');
 }

@@ -1,12 +1,12 @@
 # Home Assistant Panel Builder
 
-A visual US electrical panel inventory, dashboard card, and local Home Assistant integration. Build a panel, name each circuit, assign existing energy-monitoring sensors, and keep dated notes. Version **0.1.0**.
+A visual US electrical panel inventory, dashboard card, and local Home Assistant integration. Build a panel, name each circuit, assign existing energy-monitoring sensors, and keep dated notes. Version **0.1.1**.
 
 Maintainer: **Kudjo Grand** · gpenrod@gmail.com. Source: [kudjo/HA-Electric-Panel-builder](https://git.cdsfellows.com/kudjo/HA-Electric-Panel-builder). Report issues in the [repository issue tracker](https://git.cdsfellows.com/kudjo/HA-Electric-Panel-builder/issues).
 
 HACS mirror: [Phoenix-Grand/HA-Electric-Panel-builder](https://github.com/Phoenix-Grand/HA-Electric-Panel-builder).
 
-Release: [v0.1.0](https://github.com/Phoenix-Grand/HA-Electric-Panel-builder/releases/tag/v0.1.0) · [Manual installation ZIP](https://github.com/Phoenix-Grand/HA-Electric-Panel-builder/releases/download/v0.1.0/panel-builder-0.1.0.zip).
+Release: [v0.1.1](https://github.com/Phoenix-Grand/HA-Electric-Panel-builder/releases/tag/v0.1.1) · [Manual installation ZIP](https://github.com/Phoenix-Grand/HA-Electric-Panel-builder/releases/download/v0.1.1/panel-builder-0.1.1.zip).
 
 ## What it does
 
@@ -50,7 +50,7 @@ Designed for Home Assistant **2025.1 or newer**, including the current asynchron
 4. In **Settings → Dashboards → Resources** (enable Advanced mode in your profile if needed), add:
 
    ```text
-   URL:  /panel_builder/panel-builder.js?v=0.1.0
+   URL:  /panel_builder/panel-builder.js?v=0.1.1
    Type: JavaScript module
    ```
 
@@ -59,7 +59,7 @@ Designed for Home Assistant **2025.1 or newer**, including the current asynchron
    ```yaml
    lovelace:
      resources:
-       - url: /panel_builder/panel-builder.js?v=0.1.0
+       - url: /panel_builder/panel-builder.js?v=0.1.1
          type: module
    ```
 
@@ -125,11 +125,13 @@ Changes to breaker type that remove extra circuits require confirmation because 
 
 ## Use alongside Home Assistant Energy
 
-This card works on editable dashboards, including an energy-focused dashboard. Home Assistant documents [using built-in Energy cards in other dashboards](https://www.home-assistant.io/dashboards/energy/). Use **Energy setup → Export dashboard view** to download a view with `energy-date-selection`, `energy-usage-graph`, `energy-devices-graph`, and your Panel Builder card. Insert the view into an existing dashboard's `views` list; resource registration is separate.
+This card works on editable dashboards, including an energy-focused dashboard. Home Assistant documents [using built-in Energy cards in other dashboards](https://www.home-assistant.io/dashboards/energy/). **Energy setup** exports a view with a shared energy date selector, native `energy-sankey`, energy usage/device graphs, your saved panel in view-only mode, and 24-hour history graphs for assigned primary power sensors. The native Sankey needs a Home Assistant version that includes `energy-sankey`; on older versions, remove that card or use a separately configured community Sankey. Resource registration is separate.
 
-The generated built-in Energy dashboard is managed by Home Assistant; this integration does not patch that built-in view or automatically rewrite Energy preferences. Add the primary energy sensors listed in **Energy setup** under **Settings → Energy → Individual devices**. The exported sensor list is a checklist, not an import payload for Energy preferences.
+For an existing dashboard, choose **Export view YAML**. Open **Edit dashboard → Raw configuration editor** and append the view to its existing `views:` list. Prefix the file's first configuration line with two spaces and `- `, and indent its remaining configuration lines four spaces. Keep all existing views. For a new editable dashboard, choose **Export new dashboard YAML** and paste the entire file into that dashboard's Raw configuration editor. These exports contain a view or dashboard, so they cannot be pasted into **Add card → Manual**. Back up the full dashboard YAML before editing it.
 
-Energy sensor metadata checks require `device_class: energy`, an appropriate energy unit, and `state_class: total` or `total_increasing`. Recorder exclusions, statistics issues, and actual measurement coverage still need checking in Home Assistant. A power sensor in watts is not cumulative energy; create an [Integral helper](https://www.home-assistant.io/integrations/integration/) when needed. See [Energy sensor requirements](https://www.home-assistant.io/docs/energy/faq/).
+The built-in Energy dashboard is managed by Home Assistant. Open **Energy setup → Energy configuration → Electricity**, which links directly to `/config/energy/electricity`, and scroll to **Individual electrical devices**. Alternatively, open Energy from the sidebar and use its configuration button. Add the appropriate energy counters there; previously configured sensors already work with the exported Energy cards. Panel Builder does not automatically rewrite Energy preferences. The sensor export is a checklist, not an import payload for those preferences.
+
+The checklist includes primary power assignments as well as primary energy assignments. Power in W/kW shows demand and supports power history; cumulative energy in Wh/kWh supports historical consumption. First look for an existing energy counter from the same meter channel and assign that entity too. Create an [Integral helper](https://www.home-assistant.io/integrations/integration/) only when no suitable counter exists. Energy metadata checks require `device_class: energy`, an appropriate energy unit, and `state_class: total` or `total_increasing`. Recorder exclusions, statistics issues, and actual measurement coverage also need checking. See [Energy sensor requirements](https://www.home-assistant.io/docs/energy/faq/).
 
 Comparison meters and device-only monitors are excluded from the primary circuit checklist. A primary entity reused on several circuits is flagged and included only once in the checklist. The card does not add sensor values together, so a circuit CT plus a smart plug on that circuit cannot inflate a displayed total. If you add nested device sensors to Energy, configure their upstream relationships there.
 
@@ -165,7 +167,7 @@ python -m compileall -q custom_components
 python scripts/package_release.py
 ```
 
-The archive is written to `release/panel-builder-0.1.0.zip` (ignored by Git). Packaging includes only the integration and documentation, excluding preview browser data and development artifacts.
+The archive is written to `release/panel-builder-0.1.1.zip` (ignored by Git). Packaging includes only the integration and documentation, excluding preview browser data and development artifacts.
 
 Optional browser checks require Playwright and its Chromium browser. Install them in your development environment, start the preview, then run:
 

@@ -10,6 +10,9 @@
 - [x] Publish GitHub and Gitea repositories, tag v0.1.0, and attach the installation ZIP to the GitHub release.
 - [x] Publish the public GitHub mirror at Phoenix-Grand/HA-Electric-Panel-builder for HACS; direct Gitea installation is not supported by HACS.
 - [ ] Validate custom HACS installation on GitHub. Default catalog submission is optional and separate.
+- [x] Confirm the maintainer's HACS installation and saved main/outside panels on a real Home Assistant instance.
+- [x] Correct Energy setup navigation and include power assignments in the sensor checklist.
+- [x] Add Sankey and power-history dashboard exports with separate view/dashboard formats.
 
 ## Energy and monitoring
 

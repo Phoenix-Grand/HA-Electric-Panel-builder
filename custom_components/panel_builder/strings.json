@@ -1,7 +1,7 @@
 {
   "title": "Panel Builder",
   "config": {
-    "step": { "user": { "title": "Panel Builder", "description": "Save visual electrical panels, circuit monitor assignments, and dated notes locally in Home Assistant. After setup, register the dashboard resource /panel_builder/panel-builder.js?v=0.1.0 as a JavaScript module and add the Panel Builder card." } },
+    "step": { "user": { "title": "Panel Builder", "description": "Save visual electrical panels, circuit monitor assignments, and dated notes locally in Home Assistant. After setup, register the dashboard resource /panel_builder/panel-builder.js?v=0.1.1 as a JavaScript module and add the Panel Builder card." } },
     "abort": { "already_configured": "Panel Builder is already configured. Add more panels inside the dashboard card." }
   }
 }

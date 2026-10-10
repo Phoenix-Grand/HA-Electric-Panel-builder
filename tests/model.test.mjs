@@ -59,3 +59,29 @@ test('dashboard export quotes user-supplied YAML text and retains the panel ID',
   const p=fixture(); p.name='Garage: "panel"\nnext'; const yaml=dashboardYaml(p);
   assert.ok(yaml.includes('title: "Garage: \\"panel\\"\\nnext"')); assert.ok(yaml.includes('panel_id: "test-panel"'));
 });
+
+test('power-only assignments appear in the checklist without being marked Energy-ready',()=>{
+  const p=fixture();
+  p.breakers[0].circuits[0].assignments[0].measurement='power';
+  p.breakers[0].circuits[0].assignments[0].entityId='sensor.heat_pump_power';
+  const plan=energyPlan(p, {'sensor.heat_pump_power': {state:'1200',attributes:{device_class:'power',unit_of_measurement:'W',state_class:'measurement'}}});
+  assert.equal(plan.length,1); assert.equal(plan[0].measurement,'power'); assert.equal(plan[0].ready,false);
+});
+
+test('dashboard exports share a date collection and include deduplicated primary power history',()=>{
+  const p=fixture(); const circuit=p.breakers[0].circuits[0];
+  circuit.assignments.push({id:'power1',entityId:'sensor.heat_pump_power',role:'circuit',measurement:'power',deviceId:'',label:''});
+  p.breakers[1].circuits[0].assignments.push({...circuit.assignments[1],id:'power2'});
+  p.breakers[1].circuits[1].assignments.push({...circuit.assignments[1],id:'comparison-power',entityId:'sensor.comparison_power',role:'comparison'});
+  validatePanel(p);
+  const view=dashboardYaml(p); const full=dashboardYaml(p,true);
+  assert.ok(view.includes('type: energy-sankey'));
+  assert.equal((view.match(/collection_key: "energy_panel_test-panel"/g)||[]).length,4);
+  assert.ok(view.includes('hours_to_show: 24'));
+  assert.equal((view.match(/entity: "sensor.heat_pump_power"/g)||[]).length,1);
+  assert.ok(!view.includes('sensor.comparison_power'));
+  assert.ok(view.includes('read_only: true'));
+  assert.ok(view.includes('path: "panel-energy-test-panel"'));
+  assert.ok(full.includes('views:\n  - title:'));
+  assert.ok(full.includes('\n    cards:\n      - type: vertical-stack'));
+});
